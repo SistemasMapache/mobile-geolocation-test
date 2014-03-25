@@ -21,10 +21,7 @@
         Martin Szyszlican
         </author>
 
-        <feature name="Geolocation">
-            <param name="android-package" value="org.apache.cordova.GeoBroker" />
-            <param name="ios-package" value="CDVLocation" />
-        </feature>
+        <feature name="http://api.phonegap.com/1.0/geolocation"/>
 
         <gap:platform name="ios" />
         <gap:platform name="android" />
