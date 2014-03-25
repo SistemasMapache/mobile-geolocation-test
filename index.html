@@ -21,41 +21,36 @@
     <script type="text/javascript">
 
 
-       var map, layer, running = false;
+        var map, layer, running = false,
+            watchID = [],
+            gpos,markers,icon;
 
         function init(){
             map = new OpenLayers.Map({
                 div: "map",
                 projection: "EPSG:900913"
             });
-            console.log(map);
 
             var osm = new OpenLayers.Layer.OSM();
-            //var gmap = new OpenLayers.Layer.Google("Google Streets", {visibility: false});
 
             // note that first layer must be visible
             map.addLayers([osm]);
 
-            //map.addControl(new OpenLayers.Control.LayerSwitcher());
-              map.setCenter([0,0]);
-              map.zoomTo(18);
-            //var click = new OpenLayers.Control.Click();
-            //map.addControl(click);
-            //click.activate();
+            map.setCenter([0,0]);
+            map.zoomTo(18);
+
             map.addControl(new OpenLayers.Control.OverviewMap());
 
-                markers = new OpenLayers.Layer.Markers( "Markers" );
-                map.addLayer(markers);         
-                size = new OpenLayers.Size(21,25);
-                offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-                icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
+            markers = new OpenLayers.Layer.Markers( "Markers" );
+            map.addLayer(markers);         
+            size = new OpenLayers.Size(21,25);
+            offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+            icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
 
         }
 
 
-var watchID = [];
-var gpos,markers,icon;
-view = {
+        view = {
             onGeolocationSuccess: function(position) {
                 gpos = position;
                 console.log(position.coords);
@@ -74,13 +69,11 @@ view = {
         onGeolocationError: function(error) {
             alert('No pudimos determinar su ubicación. \nMensaje:' +
                 error.message + ' ('    + error.code    + ')');
-            //var clients = app.data.get('cachedclients');
         },
 
         //Init the geolocation watch and update
         initGeolocation: function(onSuccess,onError) {
             // Options: throw an error if no update is received every 30 seconds.
-            //
             watchID.push(navigator.geolocation.watchPosition(onSuccess, onError, { timeout:  30000, enableHighAccuracy: true }));
             console.log("watchID",watchID);
 
@@ -97,7 +90,9 @@ view = {
 
         }
     };
-view.initGeolocation(view.onGeolocationSuccess,view.onGeolocationError);
-init();
+
+    view.initGeolocation(view.onGeolocationSuccess,view.onGeolocationError);
+    init();
+
     </script>
 </html>
