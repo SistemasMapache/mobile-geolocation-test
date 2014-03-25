@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GeoTest</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="Demo project">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <style type="text/css"></style>
+    </head>
+    <body>
+        <p>Let the game begin!</p>
+    </body>
+    <script type="text/javascript">
+
+var watchID = [];
+view = {
+            onGeolocationSuccess: function(position) {
+                console.log(position.coords);
+                alert(position.coords.latitude+" "+position.coords.longitude+" "+position.coords.accuracy)            
+        },
+
+        // onError Callback receives a PositionError object
+        //
+        onGeolocationError: function(error) {
+            alert('No pudimos determinar su ubicación. \nMensaje:' +
+                error.message + ' ('    + error.code    + ')');
+            //var clients = app.data.get('cachedclients');
+        },
+
+        //Init the geolocation watch and update
+        initGeolocation: function(onSuccess,onError) {
+            // Options: throw an error if no update is received every 30 seconds.
+            //
+            watchID.push(navigator.geolocation.watchPosition(onSuccess, onError, { timeout:  30000, enableHighAccuracy: true }));
+            console.log("watchID",watchID);
+
+
+        },
+        stopGeolocation: function() {
+            //ToDo: This is not working
+
+            //Clear location watch
+            for(var id in  watchID) {
+                console.log("stop watchID",watchID[id]);  
+                navigator.geolocation.clearWatch(watchID[id]);
+            }
+
+        }
+    };
+view.initGeolocation(view.onGeolocationSuccess,view.onGeolocationError);
+
+    </script>
+</html>
